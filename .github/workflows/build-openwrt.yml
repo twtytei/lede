@@ -24,8 +24,19 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+        make defconfig
+
     - name: Run make menuconfig
       run: script -q -c "make menuconfig" /dev/null
-        make menuconfig
+
+    - name: Generate diffconfig
+      run: |
+        cd openwrt
         ./scripts/diffconfig.sh > diffconfig
         cat diffconfig
+
+    - name: Upload .config file
+      uses: actions/upload-artifact@v2
+      with:
+        name: config-file
+        path: openwrt/.config
