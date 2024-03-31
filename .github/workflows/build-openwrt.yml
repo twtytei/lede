@@ -24,6 +24,8 @@ jobs:
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
+    - name: Run make menuconfig
+      run: script -q -c "make menuconfig" /dev/null
         make menuconfig
         ./scripts/diffconfig.sh > diffconfig
         cat diffconfig
